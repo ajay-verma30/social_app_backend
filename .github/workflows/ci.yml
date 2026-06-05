@@ -16,7 +16,7 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: local_tes_password
+          POSTGRES_PASSWORD: local_test_password
           POSTGRES_DB: my_test_db
         ports:
           - 5432:5432
