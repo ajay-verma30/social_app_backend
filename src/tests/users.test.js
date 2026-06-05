@@ -22,7 +22,6 @@ describe('User Management API Integration', () => {
   });
 
   it('POST /users/register should successfully register a new user table entry', async () => {
-    // Service ke mandatory check ke hisaab se saari fields daal di hain
     const newUser = {
       userName: 'ajay_test_user',
       password: 'SuperSecurePassword123!',
@@ -36,10 +35,9 @@ describe('User Management API Integration', () => {
       .post('/users/register')
       .send(newUser);
 
-    // Agar registration validation cross karke DB entry banata hai
-    // Apne controller behavior ke hisaab se response status check karo (200 ya 201)
-    expect(response.statusCode).not.toBe(400);
-    expect(response.statusCode).not.toBe(500);
-    expect(response.body).toHaveProperty('userName', newUser.userName);
+    // Fixed Assertions to match your exact controller response layout
+    expect(response.statusCode).toBe(201); 
+    expect(response.body).toHaveProperty('success', true);
+    expect(response.body.data).toHaveProperty('username', newUser.userName);
   });
 });
