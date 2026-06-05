@@ -31,7 +31,7 @@ describe('User Management API integrations', () =>{
             };
 
             const response = await request(app)
-            .post('/users')
+            .post('/users/register')
             .send(newUser);
 
             expect(response.statusCode).toBe(201); // Or 200, matching your router design
