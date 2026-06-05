@@ -37,8 +37,6 @@ const fetchPosts = async (req, res) => {
         });
         
     } catch (error) {
-        // FIX: Ab hum "Available" check kar rahe hain (Jo service se aayega)
-        // Agar posts nahi hain toh 404 (Not Found), warna 500 (Server Error)
         const statusCode = error.message.includes("Available") ? 404 : 500;
         
         res.status(statusCode).json({
@@ -47,5 +45,6 @@ const fetchPosts = async (req, res) => {
         });
     }
 };
+
 
 module.exports = { postCreation, fetchPosts };
