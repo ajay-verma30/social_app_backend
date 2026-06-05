@@ -1,18 +1,26 @@
--- Drop tables if they exist so every test run starts completely fresh
-DROP TABLE IF EXISTS posts CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
+-- Enable pgcrypto extension for encryption functions like pgp_sym_encrypt
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE TABLE users (
+-- Create the specific schema namespace your queries expect
+CREATE SCHEMA IF NOT EXISTS socializer;
+
+DROP TABLE IF EXISTS socializer.refresh_tokens CASCADE;
+DROP TABLE IF EXISTS socializer.users CASCADE;
+
+CREATE TABLE socializer.users (
     id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    userName VARCHAR(255) UNIQUE NOT NULL,
+    passwordHash VARCHAR(255) NOT NULL,
+    email BYTEA NOT NULL, -- encrypted fields are stored as BYTEA/TEXT
+    f_name BYTEA NOT NULL,
+    l_name BYTEA NOT NULL,
+    birthDate BYTEA NOT NULL,
+    lastactive TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE posts (
+CREATE TABLE socializer.refresh_tokens (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    content TEXT,
-    user_id INT REFERENCES users(id) ON DELETE CASCADE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    user_id INT REFERENCES socializer.users(id) ON DELETE CASCADE,
+    token TEXT NOT NULL,
+    expires_at TIMESTAMP NOT NULL
 );

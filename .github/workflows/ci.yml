@@ -43,5 +43,7 @@ jobs:
       run: npm test
       env:
         DATABASE_URL: postgres://postgres:local_test_password@localhost:5432/my_test_db
-        JWT_SECRET: ci_testing_one_secret_key
+        pg_encrypt_key: super_secret_test_encryption_key # <-- Added this for service layer!
+        JWT_SECRET: ci_test_secret_key
+        JWT_REFRESH_SECRET: ci_test_refresh_secret_key
         NODE_ENV: test
